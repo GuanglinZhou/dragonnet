@@ -1,4 +1,4 @@
-from experiment.models import *
+from models import *
 import os
 import glob
 import argparse
@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 import keras.backend as K
 from keras.optimizers import rmsprop, SGD, Adam
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard, ReduceLROnPlateau, TerminateOnNaN
-from experiment.idhp_data import *
+from idhp_data import *
 
 
 def _split_output(yt_hat, t, y, y_scaler, x, index):
@@ -241,7 +241,7 @@ def run_ihdp(data_base_dir='/Users/claudiashi/data/ihdp_csv', output_dir='~/resu
 
         simulation_output_dir = os.path.join(output_dir, str(idx))
 
-        os.makedirs(simulation_output_dir, exist_ok=True)
+        os.makedirs(simulation_output_dir)
 
         x = load_and_format_covariates_ihdp(simulation_file)
         t, y, y_cf, mu_0, mu_1 = load_all_other_crap(simulation_file)
@@ -268,7 +268,7 @@ def run_ihdp(data_base_dir='/Users/claudiashi/data/ihdp_csv', output_dir='~/resu
                 train_output_dir = os.path.join(simulation_output_dir, "targeted_regularization")
             else:
                 train_output_dir = os.path.join(simulation_output_dir, "baseline")
-            os.makedirs(train_output_dir, exist_ok=True)
+            os.makedirs(train_output_dir)
 
             # save the outputs of for each split (1 per npz file)
             for num, output in enumerate(test_outputs):
